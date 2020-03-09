@@ -15,6 +15,7 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
+        self.length = 0
 
 
     def _hash(self, key):
@@ -44,6 +45,7 @@ class HashTable:
 
 
     def insert(self, key, value):
+        
         '''
         Store the value with the given key.
 
@@ -51,7 +53,18 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = this._hash(key)
+        #if nothing in hashtable
+            #set key-value pair
+        if self.length > self.capacity:
+            self.storage[index] = LinkedPair(key, value)
+        return 
+        ##What do we return???
+
+        #if hashtable length is less than capacity
+            #set key-value pair
+        # if hashtable length is greater than capacity
+            #expand and then insert key-value pair
 
 
 
