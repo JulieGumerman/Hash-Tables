@@ -56,26 +56,26 @@ class HashTable:
         '''
         index = self._hash_mod(key)
         print("index", index)
-        #current = self.storage[index]
+        current = self.storage[index]
 
-        if self.storage[index] == None:
+        if current == None:
             #print("current == None", key, value)
             self.storage[index] = LinkedPair(key, value)
             print("self-storage-index", self.storage[index])
-        elif self.storage[index].next == None:
+        elif current.next == None:
             print("current.next == None", key, value)
             if self.storage[index].key == key:
                 self.storage[index].value == value
                 return
             self.storage[index].next = LinkedPair(key, value)
         else:
-            while self.storage[index].next != None:
-                if self.storage[index].key == key:
-                    self.storage[index].value = value
+            while current.next != None:
+                if current.key == key:
+                    current.value = value
                     print("overwrite worked", self.storage[index].value)
                     return
-                self.storage[index] = self.storage[index].next
-            self.storage[index].next == LinkedPair(key, value)
+                current = current.next
+            current.next == LinkedPair(key, value)
 
 
                     
