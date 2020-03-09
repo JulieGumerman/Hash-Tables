@@ -54,28 +54,33 @@ class HashTable:
 
         Fill this in.
         '''
-        index = self._hash(key)
+        index = self._hash_mod(key)
         print("index", index)
-        current = self.storage[index]
+        #current = self.storage[index]
 
-        if current == None:
-            print("current == None", key, value)
-            current = LinkedPair(key, value)
-        elif current.next == None:
+        if self.storage[index] == None:
+            #print("current == None", key, value)
+            self.storage[index] = LinkedPair(key, value)
+            print("self-storage-index", self.storage[index])
+        elif self.storage[index].next == None:
             print("current.next == None", key, value)
-            if current.key == key:
-                current.value == value
+            if self.storage[index].key == key:
+                self.storage[index].value == value
                 return
-            current.next = LinkedPair(key, value)
+            self.storage[index].next = LinkedPair(key, value)
         else:
-            while current.next != None:
-                if current.key == key:
-                    current.value = value
-                    print("overwrite worked", current.value)
+            while self.storage[index].next != None:
+                if self.storage[index].key == key:
+                    self.storage[index].value = value
+                    print("overwrite worked", self.storage[index].value)
                     return
-                current = current.next
-            current.next == LinkedPair(key, value)
-    
+                self.storage[index] = self.storage[index].next
+            self.storage[index].next == LinkedPair(key, value)
+
+
+                    
+
+
 
 
 
@@ -120,7 +125,7 @@ class HashTable:
 
         Fill this in.
         '''
-        index =self._hash(key)
+        index =self._hash_mod(key)
         current = self.storage[index]
 
         if current != None:
@@ -131,6 +136,8 @@ class HashTable:
                     if current.key == key:
                         return current.value
                     current = current.next
+        else:
+            return None
 
         # if current.key == key:
         #     return (current.key, current.value)
