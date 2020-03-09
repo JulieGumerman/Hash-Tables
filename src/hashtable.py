@@ -74,7 +74,27 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash(key)
+        current = self.storage[index]
+
+        if current.next == None:
+            del current
+        else:
+            key_found = False
+            #loop through the list of linked pairs
+            while current.next != None:
+                if current.key = key:
+                    #delete it
+                    key_found = True
+                current = current.next
+            
+            if key_found = True:
+                return #delete it
+            else:
+                return "Error: Key does not exist"
+            #if you find it, delete it
+            #if you don't delete it, return error message
+        
 
 
     def retrieve(self, key):
