@@ -53,18 +53,16 @@ class HashTable:
 
         Fill this in.
         '''
-        index = this._hash(key)
-        #if nothing in hashtable
-            #set key-value pair
-        if self.length > self.capacity:
-            self.storage[index] = LinkedPair(key, value)
-        return 
-        ##What do we return???
+        index = self._hash(key)
+        current = self.storage[index]
 
-        #if hashtable length is less than capacity
-            #set key-value pair
-        # if hashtable length is greater than capacity
-            #expand and then insert key-value pair
+        if current == None:
+            current = LinkedPair(key, value)
+        else: 
+            ##handle collision
+            pass
+
+
 
 
 
