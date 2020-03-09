@@ -24,7 +24,8 @@ class HashTable:
 
         You may replace the Python hash with DJB2 as a stretch goal.
         '''
-        return hash(key)
+
+        return hash(key) % 8
 
 
     def _hash_djb2(self, key):
@@ -54,17 +55,25 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash(key)
+        print("index", index)
         current = self.storage[index]
 
         if current == None:
+            print("current == None", key, value)
             current = LinkedPair(key, value)
-        else:
-            ##collision handling
+        elif current.next == None:
+            print("current.next == None", key, value)
             if current.key == key:
                 current.value == value
-            else:
-                return "ERROR: Something already lives here"
-
+            current.next = LinkedPair(key, value)
+        else:
+            while current.next != None:
+                if current.key == key:
+                    current.value == value
+                current = current.next
+            current.next == LinkedPair(key, value)
+    
+        return index
 
 
 
@@ -101,6 +110,7 @@ class HashTable:
 
 
     def retrieve(self, key):
+        #fix
         '''
         Retrieve the value stored with the given key.
 
@@ -123,9 +133,11 @@ class HashTable:
 
         Fill this in.
         '''
+        #you aren't done yet: hash the keys before resetting stuff
         self.capacity *= 2
         new_storage = [None] * self.capacity
         for i in range(self.count):
+            print(i)
             new_storage[i] = self.storage[i]
         self.storage = new_storage
 
