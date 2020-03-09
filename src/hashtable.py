@@ -65,16 +65,17 @@ class HashTable:
             print("current.next == None", key, value)
             if current.key == key:
                 current.value == value
+                return
             current.next = LinkedPair(key, value)
         else:
             while current.next != None:
                 if current.key == key:
                     current.value = value
                     print("overwrite worked", current.value)
+                    return
                 current = current.next
             current.next == LinkedPair(key, value)
     
-        return self
 
 
 
@@ -87,7 +88,7 @@ class HashTable:
 
         Fill this in.
         '''
-        index = self._hash(key)
+        index = self._hash_mod(key)
         current = self.storage[index]
 
         if current.next == None:
@@ -122,11 +123,14 @@ class HashTable:
         index =self._hash(key)
         current = self.storage[index]
 
-        if current == None:
-            return None
-        elif current.next == None:
+        if current != None:
             if current.key == key:
                 return current.value
+            else:
+                while current != None:
+                    if current.key == key:
+                        return current.value
+                    current = current.next
 
         # if current.key == key:
         #     return (current.key, current.value)
