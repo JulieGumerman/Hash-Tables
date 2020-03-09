@@ -58,9 +58,12 @@ class HashTable:
 
         if current == None:
             current = LinkedPair(key, value)
-        else: 
-            ##handle collision
-            pass
+        else:
+            ##collision handling
+            if current.key == key:
+                current.value == value
+            else:
+                return "ERROR: Something already lives here"
 
 
 
@@ -83,12 +86,12 @@ class HashTable:
             key_found = False
             #loop through the list of linked pairs
             while current.next != None:
-                if current.key = key:
+                if current.key == key:
                     #delete it
                     key_found = True
                 current = current.next
             
-            if key_found = True:
+            if key_found == True:
                 return #delete it
             else:
                 return "Error: Key does not exist"
@@ -105,8 +108,13 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index =self._hash(key)
+        current = self.storage[index]
 
+        if current.key == key:
+            return (current.key, current.value)
+        else:
+            return "Sorry, bro. We're not handling collisions yet"
 
     def resize(self):
         '''
@@ -115,7 +123,11 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.capacity *= 2
+        new_storage = [None] * self.capacity
+        for i in range(self.count):
+            new_storage[i] = self.storage[i]
+        self.storage = new_storage
 
 
 
