@@ -69,11 +69,12 @@ class HashTable:
         else:
             while current.next != None:
                 if current.key == key:
-                    current.value == value
+                    current.value = value
+                    print("overwrite worked", current.value)
                 current = current.next
             current.next == LinkedPair(key, value)
     
-        return index
+        return self
 
 
 
@@ -121,10 +122,16 @@ class HashTable:
         index =self._hash(key)
         current = self.storage[index]
 
-        if current.key == key:
-            return (current.key, current.value)
-        else:
-            return "Sorry, bro. We're not handling collisions yet"
+        if current == None:
+            return None
+        elif current.next == None:
+            if current.key == key:
+                return current.value
+
+        # if current.key == key:
+        #     return (current.key, current.value)
+        # else:
+        #     return "Sorry, bro. We're not handling collisions yet"
 
     def resize(self):
         '''
