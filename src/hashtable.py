@@ -2,6 +2,7 @@
 # Linked List hash table key/value pair
 # '''
 import hashlib
+
 class LinkedPair:
     def __init__(self, key, value):
         self.key = key
@@ -26,7 +27,7 @@ class HashTable:
         You may replace the Python hash with DJB2 as a stretch goal.
         '''
 
-        return hash(key) % 8
+        return hashlib.sha256(key.encode())
 
 
     def _hash_djb2(self, key):
@@ -56,40 +57,20 @@ class HashTable:
 
         Fill this in.
         '''
-        #####another potential solution which also doesn't work####
-        # index = self._hash_mod(key)
-        # newNode = LinkedPair(key, value)
-        # current = self.storage[index]
-        # if current is not None:
-        #     newNode.next = current
-        #     current = newNode
-        # else:
-        #     current = newNode
-
-        # return
-
-
+        #grab the index
         index = self._hash_mod(key)
-        print("index", index)
-        current = self.storage[index]
-        if current == None:
-            #print("current == None", key, value)
-            current = LinkedPair(key, value)
-            print("self-storage-index", self.storage[index])
-        elif current == None:
-            print("current.next == None", key, value)
-            if current.key == key:
-                current.value == value
-                return
-            current.next = LinkedPair(key, value)
+        #this is the new addition to the bucket
+        newNode = LinkedPair(key, value)
+
+
+        if self.storage[index] is not None:
+            # if self.storage[index].key == key:
+            #     self.storage[index].value = value
+            # newNode.next = self.storage[index]
+            # self.storage[index] == newNode
+            print("No go bro")
         else:
-            while current.next != None:
-                if current.key == key:
-                    current.value = value
-                    print("overwrite worked", self.storage[index].value)
-                    return
-                current = self.storage[index].next
-            current.next == LinkedPair(key, value)    
+            self.storage[index] = newNode
     
     
 
@@ -109,23 +90,11 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-        current = self.storage[index]
 
-        if current.next == None:
-            del current
-        else:
-            key_found = False
-            #loop through the list of linked pairs
-            while current.next != None:
-                if current.key == key:
-                    #delete it
-                    key_found = True
-                current = current.next
-            
-            if key_found == True:
-                return #delete it
-            else:
-                return "Error: Key does not exist"
+        if self.storage[index] is not None:
+            self.storage[index] = None
+        else: 
+            "not yet"
             #if you find it, delete it
             #if you don't delete it, return error message
         
@@ -167,12 +136,13 @@ class HashTable:
         Fill this in.
         '''
         #you aren't done yet: hash the keys before resetting stuff
+        oldstorage = self.storage
         self.capacity *= 2
-        new_storage = [None] * self.capacity
-        for i in range(self.count):
-            print(i)
-            new_storage[i] = self.storage[i]
-        self.storage = new_storage
+        self.storage = [None] * self.capacity
+
+        for bucket_item in oldstorage:
+            self.insert(bucket_item)
+
 
 
 
