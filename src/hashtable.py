@@ -67,9 +67,8 @@ class HashTable:
                 self.storage[index].value = value
                 return
             newNode.next = self.storage[index]
-            self.storage[index] = newNode
-        else:
-            self.storage[index] = newNode
+        self.storage[index] = newNode
+ 
     
     
 
@@ -93,7 +92,7 @@ class HashTable:
         if self.storage[index] is not None:
             self.storage[index] = None
         else: 
-            "not yet"
+            return "Error: Not found"
             #if you find it, delete it
             #if you don't delete it, return error message
         
@@ -122,10 +121,7 @@ class HashTable:
         else:
             return None
 
-        # if current.key == key:
-        #     return (current.key, current.value)
-        # else:
-        #     return "Sorry, bro. We're not handling collisions yet"
+
 
     def resize(self):
         '''
@@ -134,13 +130,16 @@ class HashTable:
 
         Fill this in.
         '''
-        #you aren't done yet: hash the keys before resetting stuff
+
         oldstorage = self.storage
         self.capacity *= 2
         self.storage = [None] * self.capacity
-
+        
         for bucket_item in oldstorage:
-            self.insert(oldstorage[bucket_item].key, oldstorage[bucket_item].value)
+            current_bucket = bucket_item
+            while current_bucket != None:
+                self.insert(current_bucket.key, current_bucket.value)
+                current_bucket = current_bucket.next
 
 
 
