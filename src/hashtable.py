@@ -27,7 +27,7 @@ class HashTable:
         You may replace the Python hash with DJB2 as a stretch goal.
         '''
 
-        return hashlib.sha256(key.encode())
+        return hash(key)
 
 
     def _hash_djb2(self, key):
@@ -57,18 +57,17 @@ class HashTable:
 
         Fill this in.
         '''
-        #grab the index
+
         index = self._hash_mod(key)
-        #this is the new addition to the bucket
         newNode = LinkedPair(key, value)
 
 
         if self.storage[index] is not None:
-            # if self.storage[index].key == key:
-            #     self.storage[index].value = value
-            # newNode.next = self.storage[index]
-            # self.storage[index] == newNode
-            print("No go bro")
+            if self.storage[index].key == key:
+                self.storage[index].value = value
+                return
+            newNode.next = self.storage[index]
+            self.storage[index] = newNode
         else:
             self.storage[index] = newNode
     
@@ -141,7 +140,7 @@ class HashTable:
         self.storage = [None] * self.capacity
 
         for bucket_item in oldstorage:
-            self.insert(bucket_item)
+            self.insert(oldstorage[bucket_item].key, oldstorage[bucket_item].value)
 
 
 
