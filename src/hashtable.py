@@ -56,10 +56,10 @@ class HashTable:
 
         Fill this in.
         '''
+        #####another potential solution which also doesn't work####
         # index = self._hash_mod(key)
         # newNode = LinkedPair(key, value)
         # current = self.storage[index]
-
         # if current is not None:
         #     newNode.next = current
         #     current = newNode
