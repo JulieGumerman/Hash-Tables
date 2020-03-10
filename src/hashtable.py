@@ -1,6 +1,7 @@
 # '''
 # Linked List hash table key/value pair
 # '''
+import hashlib
 class LinkedPair:
     def __init__(self, key, value):
         self.key = key
@@ -45,6 +46,7 @@ class HashTable:
         return self._hash(key) % self.capacity
 
 
+
     def insert(self, key, value):
         
         '''
@@ -54,29 +56,42 @@ class HashTable:
 
         Fill this in.
         '''
+        # index = self._hash_mod(key)
+        # newNode = LinkedPair(key, value)
+        # current = self.storage[index]
+
+        # if current is not None:
+        #     newNode.next = current
+        #     current = newNode
+        # else:
+        #     current = newNode
+
+        # return
+
+
         index = self._hash_mod(key)
         print("index", index)
         current = self.storage[index]
-
         if current == None:
             #print("current == None", key, value)
-            self.storage[index] = LinkedPair(key, value)
+            current = LinkedPair(key, value)
             print("self-storage-index", self.storage[index])
-        elif current.next == None:
+        elif current == None:
             print("current.next == None", key, value)
-            if self.storage[index].key == key:
-                self.storage[index].value == value
+            if current.key == key:
+                current.value == value
                 return
-            self.storage[index].next = LinkedPair(key, value)
+            current.next = LinkedPair(key, value)
         else:
             while current.next != None:
                 if current.key == key:
                     current.value = value
                     print("overwrite worked", self.storage[index].value)
                     return
-                current = current.next
-            current.next == LinkedPair(key, value)
-
+                current = self.storage[index].next
+            current.next == LinkedPair(key, value)    
+    
+    
 
                     
 
