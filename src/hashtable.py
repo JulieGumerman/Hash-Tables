@@ -1,6 +1,8 @@
 # '''
 # Linked List hash table key/value pair
 # '''
+import hashlib
+
 class LinkedPair:
     def __init__(self, key, value):
         self.key = key
@@ -15,6 +17,7 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
+        self.length = 0
 
 
     def _hash(self, key):
@@ -23,6 +26,7 @@ class HashTable:
 
         You may replace the Python hash with DJB2 as a stretch goal.
         '''
+
         return hash(key)
 
 
@@ -43,7 +47,9 @@ class HashTable:
         return self._hash(key) % self.capacity
 
 
+
     def insert(self, key, value):
+        
         '''
         Store the value with the given key.
 
@@ -51,7 +57,25 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+
+        index = self._hash_mod(key)
+        newNode = LinkedPair(key, value)
+
+
+        if self.storage[index] is not None:
+            if self.storage[index].key == key:
+                self.storage[index].value = value
+                return
+            newNode.next = self.storage[index]
+        self.storage[index] = newNode
+ 
+    
+    
+
+                    
+
+
+
 
 
 
@@ -63,10 +87,19 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+
+        if self.storage[index] is not None:
+            self.storage[index] = None
+        else: 
+            return "Error: Not found"
+            #if you find it, delete it
+            #if you don't delete it, return error message
+        
 
 
     def retrieve(self, key):
+        #fix
         '''
         Retrieve the value stored with the given key.
 
@@ -74,7 +107,20 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index =self._hash_mod(key)
+        current = self.storage[index]
+
+        if current != None:
+            if current.key == key:
+                return current.value
+            else:
+                while current != None:
+                    if current.key == key:
+                        return current.value
+                    current = current.next
+        else:
+            return None
+
 
 
     def resize(self):
@@ -84,7 +130,17 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+
+        oldstorage = self.storage
+        self.capacity *= 2
+        self.storage = [None] * self.capacity
+        
+        for bucket_item in oldstorage:
+            current_bucket = bucket_item
+            while current_bucket != None:
+                self.insert(current_bucket.key, current_bucket.value)
+                current_bucket = current_bucket.next
+
 
 
 
